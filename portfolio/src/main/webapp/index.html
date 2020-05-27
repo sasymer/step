@@ -9,29 +9,55 @@
   <body>
     <div id="content">
       <h1>Sanna Symer</h1>
-      <p>Hello! Welcome to my portfolio.<br>
-        See the index below to navigate around my page.</p>
+      <hr>
+      
+      <header>
+        <div style="text-align:center">
+          <a href="favorites.html" class="navButton">Favorites</a>
+          <a href="projects.html" class="navButton">Projects</a>
+        </div>
+      </header>
+      <hr>
 
+      <!--
       <h2>Index</h2> 
       <p>From here, you can access all other parts of this page!</p>
       <a href="#About Me">About Me</a>
-      <a href="#Links">Links</a>
+      <a href="#Links">Links</a> -->
         
       <h2 id="About Me">About Me</h2>
-      <p>Here is a picture of me. Click on it to read an article about my experience in China last summer!</p>
-      <a href="https://globaled.duke.edu/student-experience/2019-08-07-Xian-Night-Market-Duke-in-China-Experience">
-        <img src="/images/selfPortrait.jpg" alt "Self portrait" style="width:200px;">
-      </a>
+
+      <div class="box">
+        <a href="https://globaled.duke.edu/student-experience/2019-08-07-Xian-Night-Market-Duke-in-China-Experience">
+            <img src="/images/selfPortrait.jpg" alt="Self portrait" id="selfImage">
+        </a>
+        <br>
+        <div class="textBox">
+        <p style="display: inline;"> Hi! I'm Sanna, a creative problem solver, 
+            proud vegetarian, and loyal friend. I am a rising
+            junior at Duke University studying Computer Science with minors in Chinese and Math.
+            I've lived in Maryland, Ohio, Texas, and North Carolina.
+            I love coding, drawing, spending time with my friends, 
+            and trying out new Netflix shows. 
+            <br>
+            Here is a picture of me. Click on it to read an article about 
+            my experience in China last summer!
+        </p>
+        </div>
+      </div>
+    
+      <br>
+
       <p>Click here to see a random fact about me:</p>
       <button onclick="addRandomFact()">Fact</button>
       <div id="fact-container"></div>
 
       <h2 id="Links">Links</h2>
       <p>Here are some links to my LinkedIn and GitHub.</p>
-      <a href="https://www.linkedin.com/in/sanna-symer-0916b8177">LinkedIn</a>
-      <a href="https://github.com/sasymer">GitHub</a>
+      <a href="https://www.linkedin.com/in/sanna-symer-0916b8177" class="personalLink">LinkedIn</a>
+      <a href="https://github.com/sasymer" class="personalLink">GitHub</a>
       
-      
+
     </div>
   </body>
 </html>
