@@ -68,16 +68,22 @@ h2 {
 }
 
 #selfImage {
-  max-height: 180px;
-  float: left; 
-  margin-right: 10px; 
-  margin-bottom: 10px;
+    max-width: 400px;
+    min-width: 200px;
+    float: left; 
+    margin-right: 10px; 
+    margin-bottom: 10px;
+    padding-right: 10px;
+}
+
+#selfImage:hover {
+    transform: scale(1.1);
 }
 
 .box {
   box-sizing: border-box;
-  background: white;
-  border-radius: 4px;
+  height: auto;
+  overflow: auto;
 }
 
 .box .textBox {
@@ -129,4 +135,16 @@ h2 {
 .desc {
   padding: 15px;
   text-align: center;
+}
+
+.modern {
+    background-color: transparent;
+    color: darkturquoise;
+    float: left;
+}
+
+.sectionHeader {
+    padding-bottom:10px; 
+    height:auto;
+    overflow:auto;
 }
