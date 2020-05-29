@@ -43,3 +43,25 @@ function addRandomGreeting() {
    const factContainer = document.getElementById('fact-container');
    factContainer.innerText = fact;
  }
+
+/*
+* Extends a collapsible element.
+*/
+function extend() {
+  var collapsibleElements = document.getElementsByClassName("collapsible");
+  var index;
+
+  //Add click listener to each collapsible element.
+  for (index = 0; index < collapsibleElements.length; index++) {
+    collapsibleElements[index].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+
+      if (content.style.display === "block") {
+        content.style.display = "none"; //Collapse
+      } else {
+         content.style.display = "block"; //Extend
+      }
+    });
+  }
+}
