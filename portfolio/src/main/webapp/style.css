@@ -180,3 +180,21 @@ h2 {
   display: none;
   overflow: hidden;
 }
+
+.icon {
+  width: 10%;
+  height: 10%;
+}
+
+.sliderIcon {
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  background-image: url("/icons/sim.png") no-repeat;
+}
+
+.sliderIcon:hover {
+  width:100px;
+  height:100px;
+  background-image: url("/icons/sim_hover.png") no-repeat;
+}
