@@ -25,27 +25,73 @@
       </div>
 
       <p>On this page, I want to showcase some of the projects I've worked on 
-          over the past few years. For each project, I'll list the language 
-          I used as well as skills learned throughout the project. 
-          <b>Double click</b> on a project title to see more about it.
+          over the past few years. <b>Click</b> on an icon below to learn about
+          some of my technical projects.
       </p>
 
       <div> 
-         <img src="/icons/slider.png" width=200px; height=200px; onmouseover="this.src='/icons/sim_hover.png';" 
-        onmouseout="this.src='icons/slider.png';" alt="Sliders">
+        <a href="cell_sim.html">
+          <img src="/icons/slider.png" width=200px; height=200px; onmouseover="this.src='/icons/sim_hover.png';" 
+          onmouseout="this.src='icons/slider.png';" alt="Sliders">
+        </a>
 
-        <img src="/icons/turtlefd.png" width=200px; height=200px; onmouseover="this.src='/icons/turtle_hover.png';" 
-        onmouseout="this.src='icons/turtlefd.png';" alt="Turtle">
+        <a href="slogo.html">
+          <img src="/icons/turtlefd.png" width=200px; height=200px; onmouseover="this.src='/icons/turtle_hover.png';" 
+          onmouseout="this.src='icons/turtlefd.png';" alt="Turtle">
+        </a>
 
-        <img src="/icons/card.png" width=200px; height=200px; onmouseover="this.src='/icons/cards_hover.png';" 
-        onmouseout="this.src='icons/card.png';" alt="Cards">
+        <a href="card_engine.html">
+          <img src="/icons/card.png" width=200px; height=200px; onmouseover="this.src='/icons/cards_hover.png';" 
+          onmouseout="this.src='icons/card.png';" alt="Cards">
+        </a>
+
+        <a href="monopoly.html">
+          <img src="/icons/monopoly.png" width=200px; height=200px; onmouseover="this.src='/icons/monopoly_hover.png';" 
+          onmouseout="this.src='icons/monopoly.png';" alt="Monopoly">
+        </a>
       </div>
+
 
       <div class="sectionHeader"> 
-        <h2>Coding</h2>
+        <h2>Other Projects</h2>
       </div>
 
-      <!-- Collapsible buttons: when clicked, shows more information. -->
+      <p><b>Double click</b> on a title to learn more.</p>
+
+      <!-- Extends and collapses on click. -->
+      <button type="button" class="collapsible" onclick="extend()">Website Design</button>
+      <div class="collapsibleContent">
+        <p>I am the tech and social media director for DUSO (Duke's Science
+            Olympiad club that plans an annual invitational for high schoolers).
+            Last year, I designed the website for DUSO, but I cheated--using Wix
+            to make the website. However, now that I have a better handle in HTML...
+            Maybe I'll spend some time remaking it?
+        </p>
+        <a href="https://www.dukescioly.org/" class="personalLink">DUSO Website</a>
+      </div> 
+
+      
+    </div>
+  </body>
+</html>
+
+<!-- 
+      <div class="sectionHeader">
+        <h2 class="modern" class="sectionHeader">Cell Simulation</h2>
+      </div> 
+      <h3>Java, JavaFX</h3>
+      <p> 
+        In a team of 3, I worked on the back-end to create a program that 
+        has the ability to run any kind of grid-based simulation, including
+        predator-prey, fire spreading, rock paper scissors, game of life, etc. 
+        Using an inheritance hierarchy, I implemented all of the simulation 
+        rules. I also created functionality in the back-end to allow for 
+        various types of grid edges, such as a wrap-around grid. Additionally,
+        simulations can be run on any size of cell neighborhood.
+      </p>
+ -->     
+
+ <!--
       <button type="button" class="collapsible" onclick="extend()">Card Game Engine</button>
       <div class="collapsibleContent">
         <img src="/icons/cards.png" alt="Cards" class="icon">
@@ -59,7 +105,7 @@
         capacity for relatively simple multiplayer games such as Old Maid, Go Fish, War,
         Slapjack, etc.
         </p>
-      </div>
+      </div> 
 
       <button type="button" class="collapsible" onclick="extend()">SLogo Parser</button>
       <div class="collapsibleContent">
@@ -76,7 +122,6 @@
 
       <button type="button" class="collapsible" onclick="extend()">Cell Simulation</button>
       <div class="collapsibleContent">
-        <!-- <img src="/icons/sim.png" alt="Sliders" class="icon"> -->
         <img src="/icons/slider.png" width=100px; height=100px; onmouseover="this.src='/icons/sim_hover.png';" 
         onmouseout="this.src='icons/slider.png';" alt="Sliders">
         <h3>Java, JavaFX</h3>
@@ -88,27 +133,4 @@
         various types of grid edges, such as a wrap-around grid. Additionally,
         simulations can be run on any size of cell neighborhood.</p>
       </div>
-
-      
-    </div>
-  </body>
-</html>
-
-<!-- 
-
-
-      <div class="sectionHeader">
-        <h2 class="modern" class="sectionHeader">Cell Simulation</h2>
-      </div> 
-      <h3>Java, JavaFX</h3>
-      <p> 
-        In a team of 3, I worked on the back-end to create a program that 
-        has the ability to run any kind of grid-based simulation, including
-        predator-prey, fire spreading, rock paper scissors, game of life, etc. 
-        Using an inheritance hierarchy, I implemented all of the simulation 
-        rules. I also created functionality in the back-end to allow for 
-        various types of grid edges, such as a wrap-around grid. Additionally,
-        simulations can be run on any size of cell neighborhood.
-      </p>
-
- -->     
+-->
