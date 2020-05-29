@@ -15,13 +15,14 @@ body {
 }
 
 p {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 h1 {
   background-color: darkturquoise;
   color: white;
   text-align: center;
+  font-size: 50px;
 }
 
 h2 {
@@ -68,8 +69,9 @@ h2 {
 
 /* Styling for image on About Me page */
 #selfImage {
-    max-width: 400px;
-    min-width: 200px;
+    max-width: 25%;
+    min-width: 15%;
+    height: auto;
     float: left; 
     margin-right: 10px; 
     margin-bottom: 10px;
@@ -77,7 +79,7 @@ h2 {
 }
 
 #selfImage:hover {
-    transform: scale(1.1);
+  opacity: 80%;
 }
 
 .box {
@@ -87,7 +89,8 @@ h2 {
 }
 
 .box .textBox {
-   padding-left: 15px;
+   padding-left: 50px;
+   padding-right: 50px;
 }
 
 .fact:hover {
