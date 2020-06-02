@@ -14,6 +14,7 @@
 
 package com.google.sps.servlets;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.IOException;
@@ -21,21 +22,47 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.gson.Gson;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List<String> messages = new ArrayList<>(Arrays.asList("one", "two", "three"));
+  private List<String> messages = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
-    String json = "{";
-    json += "\"" + messages.get(0) + "\": \"Hi! \", ";
-    json += "\"" + messages.get(1) + "\": \"I'm \", ";
-    json += "\"" + messages.get(2) + "\": \"Sanna.\"}";
-
+    String json = new Gson().toJson(messages);
     response.getWriter().println(json);
+
+    //String json = "{\"content\": \"" + text + "\"}";
   }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String text = getParameter(request, "comment-input", "");
+    messages.add(text);
+
+    // Respond with the result.
+    response.setContentType("text/html;");
+    response.getWriter().println(text);
+
+    // Redirect user to a refreshed Comments page
+    response.sendRedirect("/comments.html");
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
+  }
+
 }
