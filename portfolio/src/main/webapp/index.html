@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getGreeting()">
     <div id="content">
       <header style="padding-bottom: 50px; padding-top: 50px">
         <div style="float: left">
@@ -21,6 +21,7 @@
 
       <div id="bio">
         <img src="/images/sanna_2.jpg" alt="Self Image" id="homeImage">
+        <div id="greeting-container"></div>
         <p style="font-size:30px">
             Hi, I'm <span style="color:darkturquoise; font-weight:bold">Sanna:</span> 
             a creative problem solver, loyal friend, and 
@@ -30,7 +31,6 @@
             in the social sciences.
         </p>
       </div>
-
     </div>
   </body>
 </html>

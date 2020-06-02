@@ -65,3 +65,22 @@ function extend() {
     });
   }
 }
+
+// Fetch greeting from /data URL
+function getGreeting() {
+  const responsePromise = fetch('/data');
+  responsePromise.then(handleResponse);
+}
+
+function handleResponse(response) {
+  console.log('Handling the response.');
+  const textPromise = response.text();
+  textPromise.then(addGreetingToPage);
+}
+
+function addGreetingToPage(greeting) {
+  console.log('Adding greeting to page: ' + greeting);
+
+  // Add the greeting to the greeting-container div
+  document.getElementById('greeting-container').innerText = greeting;
+}
