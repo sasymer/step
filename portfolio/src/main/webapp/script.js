@@ -84,3 +84,15 @@ function addGreetingToPage(greeting) {
   // Add the greeting to the greeting-container div
   document.getElementById('greeting-container').innerText = greeting;
 }
+
+// Get message from server as a json string and add to page.
+function getMessage() {
+  fetch('/data').then(response => response.json()).then((obj) => {
+    console.log(obj.one);
+    console.log(obj.two);
+    console.log(obj.three);
+
+    const string = obj.one + obj.two + obj.three;
+    document.getElementById('greeting-container').innerText = string;
+  });
+}
