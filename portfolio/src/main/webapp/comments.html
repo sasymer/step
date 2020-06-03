@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="comment.js"></script>
+  </head>
+  <body>
+    <div id="content">
+      <header style="padding-bottom: 50px; padding-top: 50px">
+        <div style="float: left">
+          <a href="index.html" class="navButton">Sanna Symer</a>
+        </div>
+        <div style="float: right">
+          <a href="aboutme.html" class="navButton">Me</a>
+          <a href="fun.html" class="navButton">Fun</a>
+          <a href="projects.html" class="navButton">Projects</a>
+          <a href="comments.html" class="navButton">Comments</a>
+        </div>
+      </header>
+
+      <div id="bio">
+        <h3 style="color:darkturquoise;">Comments</h3>
+        <form action="/data" method="POST" onsubmit="makeCommentList()">
+          <p style="font-weight:bold;">Enter some text:</p>
+          <textarea name="comment-input" placeholder="Type here..." style="outline:none;"></textarea>
+          <br>
+          <!-- <p>Enter a number between 0 and 10 to choose how many comments you want to see.</p> -->
+          <input type="number" id="number-comments" name="number-comments" min="0" max="10" onchange="makeCommentList()">
+          <br>
+          <input type="submit"/>
+        </form>
+        <div>
+          <p>See all comments below!</p>
+        </div>
+        <div id="comment-space" style="font-size:16px; text-align:justify;"></div>
+      </div>
+    </div>
+  </body>
+</html>

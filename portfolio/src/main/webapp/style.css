@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
+
+
 #content {
   margin-left: auto;
   margin-right: auto;
@@ -11,7 +15,7 @@
 }
 
 body {
-  font-family: Roboto;
+  font-family: 'Roboto', sans-serif;
 }
 
 p {
@@ -21,7 +25,6 @@ p {
 h1 {
   background-color: darkturquoise;
   color: white;
-  text-align: center;
   font-size: 50px;
 }
 
