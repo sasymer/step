@@ -10,8 +10,16 @@ function createListElement(text) {
 function makeCommentList() {
   console.log('Get comment function.');
 
-  fetch('/data').then(response => response.json()).then((commentObj) => {
+  const str = '/data?number-comments=' + document.getElementById('number-comments').value;
+  console.log(str);
+
+  //todo replace the 6 with the value of the html element
+  fetch(str).then(response => response.json()).then((commentObj) => {
     const commentSpace = document.getElementById('comment-space');
+    
+    while (commentSpace.firstChild) {
+      commentSpace.removeChild(commentSpace.firstChild);
+    }
 
     for (i in commentObj) {
       commentSpace.appendChild(createListElement(commentObj[i]));

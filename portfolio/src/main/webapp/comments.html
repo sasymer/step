@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="comment.js"></script>
   </head>
-  <body onload="makeCommentList()">
+  <body>
     <div id="content">
       <header style="padding-bottom: 50px; padding-top: 50px">
         <div style="float: left">
@@ -22,9 +22,12 @@
 
       <div id="bio">
         <h3 style="color:darkturquoise;">Comments</h3>
-        <form action="/data" method="POST">
+        <form action="/data" method="POST" onsubmit="makeCommentList()">
           <p style="font-weight:bold;">Enter some text:</p>
           <textarea name="comment-input" placeholder="Type here..." style="outline:none;"></textarea>
+          <br>
+          <!-- <p>Enter a number between 0 and 10 to choose how many comments you want to see.</p> -->
+          <input type="number" id="number-comments" name="number-comments" min="0" max="10" onchange="makeCommentList()">
           <br>
           <input type="submit"/>
         </form>

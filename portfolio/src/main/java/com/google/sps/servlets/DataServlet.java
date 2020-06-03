@@ -45,11 +45,21 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    int numberComments = getNumberComments(request);
+    if (numberComments == -1) {
+     return;
+    }
+
     messages = new ArrayList<>();
+    int count = 0;
     for (Entity entity : results.asIterable()) {
+      if (count >= numberComments) {
+        break;
+      }
       long id = entity.getKey().getId();
       String comment = (String) entity.getProperty("content");
       messages.add(comment);
+      count++;
     }
 
     response.setContentType("text/html;");
@@ -90,10 +100,33 @@ public class DataServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
+    System.out.println("Value " + value);
     if (value == null) {
       return defaultValue;
     }
     return value;
+  }
+
+  private int getNumberComments(HttpServletRequest request) {
+    // Get the input from the form.
+    String numberChoiceString = getParameter(request, "number-comments", "1");
+    System.out.println("Number choice: " + numberChoiceString);
+
+    // Convert the input to an int.
+    int numberChoice;
+    try {
+      numberChoice = Integer.parseInt(numberChoiceString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + numberChoiceString);
+      return -1;
+    }
+
+    if (numberChoice < 0 || numberChoice > 10) {
+      System.err.println("Choice is out of range: " + numberChoiceString);
+      return -1;
+    }
+
+    return numberChoice;
   }
 
 }
