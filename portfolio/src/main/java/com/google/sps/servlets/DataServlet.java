@@ -14,7 +14,6 @@
 
 package com.google.sps.servlets;
 
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -51,7 +50,8 @@ public class DataServlet extends HttpServlet {
      return;
     }
 
-    messages = new ArrayList<>();
+    // Add "numberComments" comments to messages list from the datastore.
+    messages.clear();
     int count = 0;
     for (Entity entity : results.asIterable()) {
       if (count >= numberComments) {
@@ -80,8 +80,8 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(text);
 
     long timestamp = System.currentTimeMillis();
-    Entity commentEntity = makeCommentEntity(text, timestamp);
 
+    Entity commentEntity = makeCommentEntity(text, timestamp);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
@@ -111,7 +111,6 @@ public class DataServlet extends HttpServlet {
   private int getNumberComments(HttpServletRequest request) {
     // Get the input from the form.
     String numberChoiceString = getParameter(request, "number-comments", "1");
-    System.out.println("Number choice: " + numberChoiceString);
 
     // Convert the input to an int.
     int numberChoice;
