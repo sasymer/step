@@ -7,7 +7,7 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
+    <div class="header">
       <header style="padding-bottom: 50px; padding-top: 50px">
         <div style="float: left">
           <a href="index.html" class="navButton">Sanna Symer</a>
@@ -19,18 +19,20 @@
           <a href="comments.html" class="navButton">Comments</a>
         </div>
       </header>
+    </div>
 
+    <div id="content">
       <div class="sectionHeader" class="bio" style="padding-top:50px">
         <h1 class="modern" style="text-align:center; height:auto; overflow:auto;">About Me</h1>  
       </div>
 
       <div class="bio">  
-        <a href="https://globaled.duke.edu/student-experience/2019-08-07-Xian-Night-Market-Duke-in-China-Experience">
+        <a href="https://globaled.duke.edu/student-experience/2019-08-07-Xian-Night-Market-Duke-in-China-Experience" target="_blank">
           <img src="/images/selfPortrait.jpg" alt="Self portrait" id="selfImage" style="border-radius:50%;">
         </a>
         <br>
         <div> <!-- Used to be class textBox -->
-          <p style="font-size:20px; text-align:justify; padding-right:100px;">
+          <p style="font-size:20px; text-align:justify; padding-right:10%;">
             My name is Sanna, and I am a rising
             junior at Duke University studying Computer Science 
             with minors in Chinese and Math.
@@ -40,22 +42,24 @@
             <b>Click on the picture</b> to read an article about 
             my experience in China last summer!
           </p>
+
+          <div>
+            <a href="https://www.linkedin.com/in/sanna-symer-0916b8177" class="personalLink" target="_blank">LinkedIn</a>
+            <a href="https://github.com/sasymer" class="personalLink" target="_blank">GitHub</a>
+          </div>
         </div>
       </div>
-    
-      <br>
+    </div>
 
-      <p onclick="addRandomFact()" class="fact">Click on this sentence to see a random fact about me.</p>
-      <div id="fact-container" style="padding-left: 50px"></div>
+    <div style="height: 50px;"></div>
 
-      <div class="sectionHeader">
-        <h2 class="modern">Links</h2>
+    <div id="content">
+      <div class="column">
+        Here is a col. This is a test.
       </div>
-      <div class="box">
-        <a href="https://www.linkedin.com/in/sanna-symer-0916b8177" class="personalLink">LinkedIn</a>
-        <a href="https://github.com/sasymer" class="personalLink">GitHub</a>
+      <div class="column">
+        Here is a col.2 This is a test.
       </div>
-
     </div>
   </body>
 </html>
