@@ -26,13 +26,9 @@
 
         <div style="padding-top:20px; padding-bottom:20px; background-color:lightgray;">
           <form action="/data" method="POST">
-            <textarea name="comment-input" rows = "10" cols = "78" placeholder="Enter a comment here..." style="outline:none;"></textarea>
+            <textarea required name="comment-input" rows = "10" cols = "78" placeholder="Enter a comment here..." style="outline:none;"></textarea>
             <br>
-            <textarea name="name-input" rows = "2" cols = "78" placeholder="Name..."></textarea>
-            <br>
-            <div>
-              <!-- <input type="number" id="n-comments" name="n-comments" min="0" max="10" onchange="makeCommentList()"> -->
-            </div>
+            <textarea required name="name-input" rows = "2" cols = "78" placeholder="Name..."></textarea>
             <br>
             <input type="submit"/>
           </form>
