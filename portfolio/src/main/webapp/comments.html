@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="style.css">
     <script src="comment.js"></script>
   </head>
-  <body>
+  <body onload="allComments()">
     <div id="content">
-      <header style="padding-bottom: 50px; padding-top: 50px">
-        <div style="float: left">
+      <header style="padding-bottom:50px; padding-top:50px">
+        <div style="float:left">
           <a href="index.html" class="navButton">Sanna Symer</a>
         </div>
-        <div style="float: right">
+
+        <div style="float:right">
           <a href="aboutme.html" class="navButton">Me</a>
           <a href="fun.html" class="navButton">Fun</a>
           <a href="projects.html" class="navButton">Projects</a>
@@ -20,21 +21,50 @@
         </div>
       </header>
 
-      <div id="bio">
-        <h3 style="color:darkturquoise;">Comments</h3>
-        <form action="/data" method="POST" onsubmit="makeCommentList()">
-          <p style="font-weight:bold;">Enter some text:</p>
-          <textarea name="comment-input" placeholder="Type here..." style="outline:none;"></textarea>
-          <br>
-          <!-- <p>Enter a number between 0 and 10 to choose how many comments you want to see.</p> -->
-          <input type="number" id="number-comments" name="number-comments" min="0" max="10" onchange="makeCommentList()">
-          <br>
-          <input type="submit"/>
-        </form>
-        <div>
-          <p>See all comments below!</p>
+      <div id="centered">
+        <h3 style="color:darkturquoise; font-size:35px;">COMMENTS</h3>
+
+        <div style="padding-top:20px; padding-bottom:20px; background-color:lightgray;">
+          <form action="/data" method="POST">
+            <textarea name="comment-input" rows = "10" cols = "78" placeholder="Enter a comment here..." style="outline:none;"></textarea>
+            <br>
+            <textarea name="name-input" rows = "2" cols = "78" placeholder="Name..."></textarea>
+            <br>
+            <div>
+              <!-- <input type="number" id="n-comments" name="n-comments" min="0" max="10" onchange="makeCommentList()"> -->
+            </div>
+            <br>
+            <input type="submit"/>
+          </form>
         </div>
-        <div id="comment-space" style="font-size:16px; text-align:justify;"></div>
+        
+        <!-- Extra spacing -->
+        <div style="padding-bottom:20px;"></div>
+
+        <div style="padding-top:20px; padding-bottom:20px; background-color:paleturquoise; overflow:auto;">
+          <p style="padding-top:20px; padding-bottom:10px; font-size:15px;">
+            <label for="choose-num">Select an option to limit the number of comments shown.</label>
+          </p>
+          <select onchange= "limitedComments()" name="choose-num" id="choose-num" style="width:80px; height:40px; border:none; background-color:white; border-radius:4px">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="40">40</option>
+          </select>
+          <!-- <input type="number" id="number-comments" name="number-comments" min="0" max="10" onchange="makeCommentList()"> -->
+          <!-- Comment space --> 
+          <div id="comment-space" style="font-size:16px; text-align:justify;">
+          </div>
+        </div>
+
+        <div> 
+          <p style="text-align:justify; font-color:lightgray">
+            Click the button below and refresh this page
+            to delete all comments from the server. 
+            I'm giving you a lot of power, to be honest.
+          </p>
+          <button class="bluebutton" onclick="deleteComments()">Delete Comments</button> 
+        </div>
       </div>
     </div>
   </body>

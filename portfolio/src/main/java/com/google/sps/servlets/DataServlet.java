@@ -36,30 +36,38 @@ public class DataServlet extends HttpServlet {
 
   private List<String> messages = new ArrayList<>();
   private static final String SPACE = " ";
+  private String numberChoiceString = "";
 
   /** Get all comment entities in the datastore and add them to messages. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    System.out.println("DO GET");
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+    PreparedQuery results = datastore.prepare(query); 
 
-    int numberComments = getNumberComments(request);
-    if (numberComments == -1) {
-     return;
-    }
+    // int numberComments = getNumberComments(request);
+    // System.out.println("NUM COMMENTS = " + numberComments);
+    // if (numberComments == -1) {
+    //  return;
+    // }
 
     // Add "numberComments" comments to messages list from the datastore.
     messages.clear();
     int count = 0;
+    //Long numComments = new Long(0);
+  
     for (Entity entity : results.asIterable()) {
-      if (count >= numberComments) {
-        break;
-      }
-      long id = entity.getKey().getId();
+      // if (count == 0) {
+      //   numComments = (Long) entity.getProperty("numComments");
+      // }
+      // if (count >= numComments) {
+      //   break;
+      // }
       String comment = (String) entity.getProperty("content");
-      messages.add(comment);
+      String name = (String) entity.getProperty("name");
+      messages.add(name + ": " + comment);
       count++;
     }
 
@@ -72,26 +80,37 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the comment input from the form.
+    System.out.println("DO POST");
     String text = getParameter(request, "comment-input", "");
     messages.add(text);
+
+    String name = getParameter(request, "name-input", "");
+    // String numComments = getParameter(request, "n-comments", "1");
+    // int nComments = 0;
+    // try {
+    //   nComments = Integer.parseInt(numComments);
+    // } catch (NumberFormatException e) {
+    //   System.err.println("Number format exception: " + numComments);
+    // }
 
     // Respond with the result.
     response.setContentType("text/html;");
     response.getWriter().println(text);
 
-    long timestamp = System.currentTimeMillis();
-
-    Entity commentEntity = makeCommentEntity(text, timestamp);
+    int nComments = 10; //TODO: get rid of later
+    Entity commentEntity = makeCommentEntity(text, name, System.currentTimeMillis(), nComments);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
     response.sendRedirect("/comments.html");
   }
 
-  private Entity makeCommentEntity(String text, long timestamp) {
+  private Entity makeCommentEntity(String text, String name, long timestamp, int nComments) {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("content", text);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("numComments", 10);
     return commentEntity;
   }
 
@@ -101,7 +120,7 @@ public class DataServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-    System.out.println("Value " + value);
+    System.out.println("Value " + value + " name " + name);
     if (value == null) {
       return defaultValue;
     }
@@ -109,8 +128,10 @@ public class DataServlet extends HttpServlet {
   }
 
   private int getNumberComments(HttpServletRequest request) {
-    // Get the input from the form.
-    String numberChoiceString = getParameter(request, "number-comments", "1");
+    // Get the input from the form. 
+    String param = request.getParameter("n-comments");
+    if (param != null)
+      numberChoiceString = param;
 
     // Convert the input to an int.
     int numberChoice;
