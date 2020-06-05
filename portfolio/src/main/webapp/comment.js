@@ -59,9 +59,14 @@ function limitedComments() {
   .then(response => response.json()) // Convert to json
   .then((commentObj) => {
     const commentSpace = document.getElementById('comment-space');
-    let numberComments = document.getElementById('choose-num').value;
+    let numberComments = document.getElementById('choose-num').value; 
     console.log(numberComments); 
-    let numToList = Math.min(numberComments, commentObj.length);
+    let numToList = 0;
+    if (numberComments === 'all') {
+      numToList = commentObj.length;
+    } else {
+      numToList = Math.min(numberComments, commentObj.length);
+    }
     console.log('num to list ' + numToList);
     // Clear out comments from element.
     clearComments(commentSpace);

@@ -47,24 +47,11 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query); 
 
-    // int numberComments = getNumberComments(request);
-    // System.out.println("NUM COMMENTS = " + numberComments);
-    // if (numberComments == -1) {
-    //  return;
-    // }
-
     // Add "numberComments" comments to messages list from the datastore.
     messages.clear();
     int count = 0;
-    //Long numComments = new Long(0);
   
     for (Entity entity : results.asIterable()) {
-      // if (count == 0) {
-      //   numComments = (Long) entity.getProperty("numComments");
-      // }
-      // if (count >= numComments) {
-      //   break;
-      // }
       String comment = (String) entity.getProperty("content");
       String name = (String) entity.getProperty("name");
       messages.add(name + ": " + comment);
@@ -85,32 +72,22 @@ public class DataServlet extends HttpServlet {
     messages.add(text);
 
     String name = getParameter(request, "name-input", "");
-    // String numComments = getParameter(request, "n-comments", "1");
-    // int nComments = 0;
-    // try {
-    //   nComments = Integer.parseInt(numComments);
-    // } catch (NumberFormatException e) {
-    //   System.err.println("Number format exception: " + numComments);
-    // }
-
     // Respond with the result.
     response.setContentType("text/html;");
     response.getWriter().println(text);
 
-    int nComments = 10; //TODO: get rid of later
-    Entity commentEntity = makeCommentEntity(text, name, System.currentTimeMillis(), nComments);
+    Entity commentEntity = makeCommentEntity(text, name, System.currentTimeMillis());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
     response.sendRedirect("/comments.html");
   }
 
-  private Entity makeCommentEntity(String text, String name, long timestamp, int nComments) {
+  private Entity makeCommentEntity(String text, String name, long timestamp) {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("content", text);
     commentEntity.setProperty("timestamp", timestamp);
     commentEntity.setProperty("name", name);
-    commentEntity.setProperty("numComments", 10);
     return commentEntity;
   }
 
@@ -125,29 +102,6 @@ public class DataServlet extends HttpServlet {
       return defaultValue;
     }
     return value;
-  }
-
-  private int getNumberComments(HttpServletRequest request) {
-    // Get the input from the form. 
-    String param = request.getParameter("n-comments");
-    if (param != null)
-      numberChoiceString = param;
-
-    // Convert the input to an int.
-    int numberChoice;
-    try {
-      numberChoice = Integer.parseInt(numberChoiceString);
-    } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + numberChoiceString);
-      return -1;
-    }
-
-    if (numberChoice < 0 || numberChoice > 10) {
-      System.err.println("Choice is out of range: " + numberChoiceString);
-      return -1;
-    }
-
-    return numberChoice;
   }
 
 }

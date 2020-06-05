@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="comment.js"></script>
   </head>
-  <body onload="allComments()">
+  <body onload="limitedComments()">
     <div id="content">
       <header style="padding-bottom:50px; padding-top:50px">
         <div style="float:left">
@@ -43,13 +43,14 @@
 
         <div style="padding-top:20px; padding-bottom:20px; background-color:paleturquoise; overflow:auto;">
           <p style="padding-top:20px; padding-bottom:10px; font-size:15px;">
-            <label for="choose-num">Select an option to limit the number of comments shown.</label>
+            <label for="choose-num">Select an option to limit the number of comments shown. <br>By default, you'll see 5 comments. </label>
           </p>
           <select onchange= "limitedComments()" name="choose-num" id="choose-num" style="width:80px; height:40px; border:none; background-color:white; border-radius:4px">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="40">40</option>
+            <option value="all">See All</option>
           </select>
           <!-- <input type="number" id="number-comments" name="number-comments" min="0" max="10" onchange="makeCommentList()"> -->
           <!-- Comment space --> 
