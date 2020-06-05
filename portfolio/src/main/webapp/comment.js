@@ -2,10 +2,29 @@
 /** Creates an <p> element containing text. Use this to show a list of comments for now. */
 function createListElement(text) {
   const liElement = document.createElement('p');
-  liElement.innerText = text;
+  console.log('comment text ' + text);
+  var nameComment = makeNameCommentArray(text);
+  liElement.innerText = nameComment[1];
   liElement.style.paddingLeft = "15px";
-  liElement.style.fontSize = "18px";
+  liElement.style.fontSize = "15px";
   return liElement;
+}
+
+function makeNameCommentArray(text) {
+  var nameComment = text.split(": ");
+  return nameComment;
+}
+
+function createNameElement(text) {
+  var nameComment = makeNameCommentArray(text);
+  var name = nameComment[0];
+  console.log('NAME ' + name);
+  const nameElement = document.createElement('p');
+  nameElement.innerText = name;
+  nameElement.style.paddingLeft = "15px";
+  nameElement.style.fontSize = "18px";
+  nameElement.style.fontWeight = "bold";
+  return nameElement;
 }
 
 /** Make an unordered list of all comments in the server, print list onto page. */
@@ -72,6 +91,7 @@ function limitedComments() {
     clearComments(commentSpace);
 
     for (let i = 0; i < numToList; i++) {
+      commentSpace.appendChild(createNameElement(commentObj[i]));
       commentSpace.appendChild(createListElement(commentObj[i]));
       const hrLine = document.createElement('hr');
       hrLine.style.borderTop = "1px solid turquoise";
