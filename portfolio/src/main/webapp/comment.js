@@ -2,23 +2,24 @@
 function createListElement(text) {
   const liElement = document.createElement('p');
   console.log('comment text ' + text);
-  var nameComment = makeNameCommentArray(text);
-  liElement.innerText = nameComment[1];
+  var nameCommentTime = getNameCommentTime(text);
+  liElement.innerText = nameCommentTime[1];
   liElement.classList.add("commentList");
   return liElement;
 }
 
-/** Create 2 element array of name and corresponding comment. */
-function makeNameCommentArray(text) {
-  var nameComment = text.split(": ");
-  return nameComment;
+/** Create 3 element array of name, comment, timestamp. */
+function getNameCommentTime(text) {
+  var nameCommentTime = text.split(": ");
+  return nameCommentTime;
 }
 
 function createNameElement(text) {
-  var nameComment = makeNameCommentArray(text);
-  var name = nameComment[0];
+  var nameCommentTime = getNameCommentTime(text);
+  var name = nameCommentTime[0];
+  var time = nameCommentTime[2];
   const nameElement = document.createElement('p');
-  nameElement.innerText = name;
+  nameElement.innerText = name + "\n " + time + " mins ago";
   nameElement.classList.add("commentName");
   return nameElement;
 }

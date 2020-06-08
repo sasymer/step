@@ -22,27 +22,27 @@
     </div>
 
     <div id="content">
-      <div id="centered">
-        <h3 style="color:darkturquoise; font-size:35px;">COMMENTS</h3>
+      <div id="commentCenter">
+        <h3 class="commentHeader">Comments</h3>
 
-        <div style="padding-top:20px; padding-bottom:20px; background-color:lightgray;">
+        <div class="commentInputBox">
           <form action="/data" method="POST">
-            <textarea required name="comment-input" rows = "10" cols = "78" placeholder="Enter a comment here..." style="outline:none;"></textarea>
+            <textarea required name="comment-input" placeholder="Enter a comment here..." class="input"></textarea>
             <br>
-            <textarea required name="name-input" rows = "2" cols = "78" placeholder="Name..."></textarea>
+            <input type="text" required name="name-input"  placeholder="Name..." class="input"></textarea>
             <br>
             <input type="submit"/>
           </form>
         </div>
         
         <!-- Extra spacing -->
-        <div style="padding-bottom:20px;"></div>
+        <div class="space"></div>
 
-        <div style="padding-top:20px; padding-bottom:20px; background-color:paleturquoise; overflow:auto;">
-          <p style="padding-top:20px; padding-bottom:10px; font-size:15px;">
+        <div class="commentBox">
+          <p class="commentBoxLabel">
             <label for="choose-num">Select an option to limit the number of comments shown. <br>By default, you'll see 5 comments. </label>
           </p>
-          <select onchange= "limitedComments()" name="choose-num" id="choose-num" style="width:80px; height:40px; border:none; background-color:white; border-radius:4px">
+          <select onchange= "limitedComments()" name="choose-num" id="choose-num" class="numberSelection">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="20">20</option>

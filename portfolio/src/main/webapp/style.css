@@ -145,7 +145,6 @@ textarea {
   font-family: 'Roboto';
 }
 
-
 .column {
   width: 300px;
   margin: 5px 5px 5px 5px;
@@ -153,4 +152,8 @@ textarea {
   position: relative;
   display: flex;
   flex-wrap: wrap;
+}
+
+.space {
+  padding-bottom: 20px;
 }
