@@ -1,4 +1,3 @@
-
 /** Creates an <p> element containing text. Use this to show a list of comments for now. */
 function createListElement(text) {
   const liElement = document.createElement('p');
@@ -9,6 +8,7 @@ function createListElement(text) {
   return liElement;
 }
 
+/** Create 2 element array of name and corresponding comment. */
 function makeNameCommentArray(text) {
   var nameComment = text.split(": ");
   return nameComment;
@@ -17,7 +17,6 @@ function makeNameCommentArray(text) {
 function createNameElement(text) {
   var nameComment = makeNameCommentArray(text);
   var name = nameComment[0];
-  console.log('NAME ' + name);
   const nameElement = document.createElement('p');
   nameElement.innerText = name;
   nameElement.classList.add("commentName");
@@ -35,63 +34,43 @@ function makeCommentList() {
   listComments(str);
 }
 
-function listComments(address) {
-  fetch(address)
-  .then(response => response.json()) // Convert to json
-  .then((commentObj) => {
-    const commentSpace = document.getElementById('comment-space');
-    
-    // Clear out comments from element.
-    while (commentSpace.firstChild) {
-      commentSpace.removeChild(commentSpace.firstChild);
-    }
-
-    for (i in commentObj) {
-      commentSpace.appendChild(createListElement(commentObj[i]));
-      const hrLine = document.createElement('hr');
-      hrLine.classList.add('hrLine');
-      commentSpace.appendChild(hrLine);
-    }
-  });
-}
-
 function deleteComments() {
   fetch('/delete-data', {method: 'POST'})
   .then(response => response.json())
-  .then((commentObj) => {
-    allComments();
+  .then((comments) => {
+    limitedComments();
     location.reload();
     return false;
   });
 }
 
-function allComments() {
-  listComments('/data');
-}
-
-
+/** Print number of comments chosen by user, or 5 by default. */
 function limitedComments() {
   fetch('/data')
   .then(response => response.json()) // Convert to json
-  .then((commentObj) => {
+  .then((comments) => {
     const commentSpace = document.getElementById('comment-space');
     let numberComments = document.getElementById('choose-num').value; 
 
-    let numToList = 0;
-    if (numberComments === 'all') {
-      numToList = commentObj.length;
-    } else {
-      numToList = Math.min(numberComments, commentObj.length);
-    }
+    let numberToList = getNumberToList(numberComments, comments);
     clearComments(commentSpace);
 
-    for (let i = 0; i < numToList; i++) {
-      commentSpace.appendChild(createNameElement(commentObj[i]));
-      commentSpace.appendChild(createListElement(commentObj[i]));
-      const hrLine = makeHrLine();
-      commentSpace.appendChild(hrLine);
+    for (let index = 0; index < numberToList; index++) {
+      commentSpace.appendChild(createNameElement(comments[index]));
+      commentSpace.appendChild(createListElement(comments[index]));
+      commentSpace.appendChild(makeHrLine());
     }
   });
+}
+
+function getNumberToList(numberComments, comments) {
+  let numberToList = 0;
+  if (numberComments === 'all') {
+    numberToList = comments.length;
+  } else {
+    numberToList = Math.min(numberComments, comments.length);
+  }
+  return numberToList;
 }
 
 function makeHrLine() {
@@ -100,6 +79,7 @@ function makeHrLine() {
   return hrLine;
 }
 
+/** Clear all comments from parameter space, an element in the document. */
 function clearComments(space) {
   while (space.firstChild) {
     space.removeChild(space.firstChild);
