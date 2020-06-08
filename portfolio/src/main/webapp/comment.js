@@ -5,8 +5,7 @@ function createListElement(text) {
   console.log('comment text ' + text);
   var nameComment = makeNameCommentArray(text);
   liElement.innerText = nameComment[1];
-  liElement.style.paddingLeft = "15px";
-  liElement.style.fontSize = "15px";
+  liElement.classList.add("commentList");
   return liElement;
 }
 
@@ -21,9 +20,7 @@ function createNameElement(text) {
   console.log('NAME ' + name);
   const nameElement = document.createElement('p');
   nameElement.innerText = name;
-  nameElement.style.paddingLeft = "15px";
-  nameElement.style.fontSize = "18px";
-  nameElement.style.fontWeight = "bold";
+  nameElement.classList.add("commentName");
   return nameElement;
 }
 
@@ -52,7 +49,7 @@ function listComments(address) {
     for (i in commentObj) {
       commentSpace.appendChild(createListElement(commentObj[i]));
       const hrLine = document.createElement('hr');
-      hrLine.style.borderTop = "1px solid turquoise";
+      hrLine.classList.add('hrLine');
       commentSpace.appendChild(hrLine);
     }
   });
@@ -79,30 +76,27 @@ function limitedComments() {
   .then((commentObj) => {
     const commentSpace = document.getElementById('comment-space');
     let numberComments = document.getElementById('choose-num').value; 
-    console.log(numberComments); 
+
     let numToList = 0;
     if (numberComments === 'all') {
       numToList = commentObj.length;
     } else {
       numToList = Math.min(numberComments, commentObj.length);
     }
-    console.log('num to list ' + numToList);
-    // Clear out comments from element.
     clearComments(commentSpace);
 
     for (let i = 0; i < numToList; i++) {
       commentSpace.appendChild(createNameElement(commentObj[i]));
       commentSpace.appendChild(createListElement(commentObj[i]));
-      const hrLine = document.createElement('hr');
-      hrLine.style.borderTop = "1px solid turquoise";
+      const hrLine = makeHrLine();
       commentSpace.appendChild(hrLine);
     }
   });
 }
 
-function makeHr() {
+function makeHrLine() {
   const hrLine = document.createElement('hr');
-  hrLine.style.borderTop = "1px solid turquoise";
+  hrLine.classList.add('hrLine');
   return hrLine;
 }
 

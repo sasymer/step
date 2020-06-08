@@ -32,6 +32,4 @@ public class DeleteServlet extends HttpServlet {
       datastore.delete(key);
     }
   }
-
-
 }

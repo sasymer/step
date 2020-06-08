@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
 @import url('buttons.css');
 @import url('imageStyle.css');
+@import url('commentsStyle.css');
 
 #content {
   margin-left: auto;

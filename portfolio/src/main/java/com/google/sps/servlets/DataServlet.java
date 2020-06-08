@@ -35,13 +35,10 @@ import java.util.List;
 public class DataServlet extends HttpServlet {
 
   private List<String> messages = new ArrayList<>();
-  private static final String SPACE = " ";
-  private String numberChoiceString = "";
 
   /** Get all comment entities in the datastore and add them to messages. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println("DO GET");
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -67,7 +64,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the comment input from the form.
-    System.out.println("DO POST");
     String text = getParameter(request, "comment-input", "");
     messages.add(text);
 
@@ -97,7 +93,6 @@ public class DataServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-    System.out.println("Value " + value + " name " + name);
     if (value == null) {
       return defaultValue;
     }
