@@ -20,15 +20,19 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
 
 /** Servlet that handles comment data. */
 @WebServlet("/data")
@@ -40,9 +44,8 @@ public class DataServlet extends HttpServlet {
   private static final String CONTENT = "content";
   private static final String TIMESTAMP = "timestamp";
   private static final String NAME = "name";
+  private static final String EMAIL = "email";
   private static final String QUERY_STRING = "Comment";
-  private static final int MILLI_DIVISOR = 1000;
-  private static final int SECOND_DIVISOR = 60;
   private List<String> messages = new ArrayList<>();
   private QueryHelper queryHelper = new QueryHelper(QUERY_STRING);
 
@@ -64,12 +67,12 @@ public class DataServlet extends HttpServlet {
   /** Get comment from form, and create and put comment entity into datastore. */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the comment input from the form.
     String text = getParameter(request, "comment-input", "");
-    messages.add(text);
-
     String name = getParameter(request, "name-input", "");
-    // Respond with the result.
+
+    messages.add(text);
+    
+    // Respond with the result
     response.setContentType(TEXT_TYPE);
     response.getWriter().println(text);
 
@@ -80,15 +83,20 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect(REDIRECT_URL);
   }
 
-  private Long timeFromSubmit(Long submitTime) {
-    return (System.currentTimeMillis() - submitTime) / MILLI_DIVISOR / SECOND_DIVISOR;
+  private Long timeFromSubmit(Instant commentTime) {
+    Duration timeSinceCommentPost = Duration.between(commentTime, Instant.now());
+    return timeSinceCommentPost.toMinutes();
   }
 
   private String formatEntityString(Entity entity) {
     String comment = (String) entity.getProperty(CONTENT);
     String name = (String) entity.getProperty(NAME);
-    Long minutes = timeFromSubmit((Long) entity.getProperty(TIMESTAMP));
-    return name + DELIMITER + comment + DELIMITER + minutes;
+
+    Instant commentTime = Instant.ofEpochMilli((Long) entity.getProperty(TIMESTAMP));
+    Long minutes = timeFromSubmit(commentTime);
+
+    String email = (String) entity.getProperty(EMAIL);
+    return name + DELIMITER + comment + DELIMITER + minutes + DELIMITER + email;
   }
 
   private Entity makeCommentEntity(String text, String name, long timestamp) {
@@ -96,7 +104,14 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty(CONTENT, text);
     commentEntity.setProperty(TIMESTAMP, timestamp);
     commentEntity.setProperty(NAME, name);
+    commentEntity.setProperty(EMAIL, getCurrentUserEmail());
+
     return commentEntity;
+  }
+
+  private String getCurrentUserEmail() {
+    UserService userService = UserServiceFactory.getUserService();
+    return userService.getCurrentUser().getEmail();
   }
 
   /**
