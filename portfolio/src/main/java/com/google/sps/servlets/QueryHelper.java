@@ -14,27 +14,28 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 public class QueryHelper {
 
   private static final String TIMESTAMP = "timestamp";
+  private static final String QUERY_STRING = "Comment";
   private Query myQuery;
   private DatastoreService myDatastore;
   private PreparedQuery myResults;
-  private String queryString;
-
-  public QueryHelper(String queryString) {
-    this.queryString = queryString;
-    myQuery = new Query(queryString).addSort(TIMESTAMP, SortDirection.DESCENDING);
-    myDatastore = DatastoreServiceFactory.getDatastoreService();
-    myResults = myDatastore.prepare(myQuery);
-  }
 
   public PreparedQuery getResults() {
+    initQuery();
     return myResults;
   }
 
   public void deleteAllEntries() {
+    initQuery();
     for (Entity entity : myResults.asIterable()) {
       Key key = entity.getKey();
       myDatastore.delete(key);
     }
+  }
+
+  private void initQuery() {
+    myQuery = new Query(queryString).addSort(TIMESTAMP, SortDirection.DESCENDING);
+    myDatastore = DatastoreServiceFactory.getDatastoreService();
+    myResults = myDatastore.prepare(myQuery);
   }
 
 }
