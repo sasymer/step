@@ -34,28 +34,29 @@ import java.util.List;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private static final String DELIMITER = ": "; 
+  private static final String TEXT_TYPE = "text/html;";
+  private static final String REDIRECT_URL = "/comments.html";
+  private static final String CONTENT = "content";
+  private static final String TIMESTAMP = "timestamp";
+  private static final String NAME = "name";
+  private static final String QUERY_STRING = "Comment";
+  private static final int MILLI_DIVISOR = 1000;
+  private static final int SECOND_DIVISOR = 60;
   private List<String> messages = new ArrayList<>();
+  private QueryHelper queryHelper = new QueryHelper(QUERY_STRING);
 
   /** Get all comment entities in the datastore and add them to messages. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query); 
-
-    // Add "numberComments" comments to messages list from the datastore.
+    PreparedQuery results = queryHelper.getResults();
     messages.clear();
-    int count = 0;
-  
+
     for (Entity entity : results.asIterable()) {
-      String comment = (String) entity.getProperty("content");
-      String name = (String) entity.getProperty("name");
-      messages.add(name + ": " + comment);
-      count++;
+      messages.add(formatEntityString(entity));
     }
 
-    response.setContentType("text/html;");
+    response.setContentType(TEXT_TYPE);
     String json = new Gson().toJson(messages);
     response.getWriter().println(json);
   }
@@ -69,21 +70,32 @@ public class DataServlet extends HttpServlet {
 
     String name = getParameter(request, "name-input", "");
     // Respond with the result.
-    response.setContentType("text/html;");
+    response.setContentType(TEXT_TYPE);
     response.getWriter().println(text);
 
     Entity commentEntity = makeCommentEntity(text, name, System.currentTimeMillis());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
-    response.sendRedirect("/comments.html");
+    response.sendRedirect(REDIRECT_URL);
+  }
+
+  private Long timeFromSubmit(Long submitTime) {
+    return (System.currentTimeMillis() - submitTime) / MILLI_DIVISOR / SECOND_DIVISOR;
+  }
+
+  private String formatEntityString(Entity entity) {
+    String comment = (String) entity.getProperty(CONTENT);
+    String name = (String) entity.getProperty(NAME);
+    Long minutes = timeFromSubmit((Long) entity.getProperty(TIMESTAMP));
+    return name + DELIMITER + comment + DELIMITER + minutes;
   }
 
   private Entity makeCommentEntity(String text, String name, long timestamp) {
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("content", text);
-    commentEntity.setProperty("timestamp", timestamp);
-    commentEntity.setProperty("name", name);
+    Entity commentEntity = new Entity(QUERY_STRING);
+    commentEntity.setProperty(CONTENT, text);
+    commentEntity.setProperty(TIMESTAMP, timestamp);
+    commentEntity.setProperty(NAME, name);
     return commentEntity;
   }
 
@@ -98,5 +110,4 @@ public class DataServlet extends HttpServlet {
     }
     return value;
   }
-
 }
