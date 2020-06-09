@@ -14,7 +14,6 @@
 
 package com.google.sps.servlets;
 
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -36,7 +35,6 @@ import java.util.List;
 public class DataServlet extends HttpServlet {
 
   private List<String> messages = new ArrayList<>();
-  private static final String SPACE = " ";
 
   /** Get all comment entities in the datastore and add them to messages. */
   @Override
@@ -44,22 +42,16 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+    PreparedQuery results = datastore.prepare(query); 
 
-    int numberComments = getNumberComments(request);
-    if (numberComments == -1) {
-     return;
-    }
-
-    messages = new ArrayList<>();
+    // Add "numberComments" comments to messages list from the datastore.
+    messages.clear();
     int count = 0;
+  
     for (Entity entity : results.asIterable()) {
-      if (count >= numberComments) {
-        break;
-      }
-      long id = entity.getKey().getId();
       String comment = (String) entity.getProperty("content");
-      messages.add(comment);
+      String name = (String) entity.getProperty("name");
+      messages.add(name + ": " + comment);
       count++;
     }
 
@@ -75,23 +67,23 @@ public class DataServlet extends HttpServlet {
     String text = getParameter(request, "comment-input", "");
     messages.add(text);
 
+    String name = getParameter(request, "name-input", "");
     // Respond with the result.
     response.setContentType("text/html;");
     response.getWriter().println(text);
 
-    long timestamp = System.currentTimeMillis();
-    Entity commentEntity = makeCommentEntity(text, timestamp);
-
+    Entity commentEntity = makeCommentEntity(text, name, System.currentTimeMillis());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
 
     response.sendRedirect("/comments.html");
   }
 
-  private Entity makeCommentEntity(String text, long timestamp) {
+  private Entity makeCommentEntity(String text, String name, long timestamp) {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("content", text);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("name", name);
     return commentEntity;
   }
 
@@ -101,33 +93,10 @@ public class DataServlet extends HttpServlet {
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
-    System.out.println("Value " + value);
     if (value == null) {
       return defaultValue;
     }
     return value;
-  }
-
-  private int getNumberComments(HttpServletRequest request) {
-    // Get the input from the form.
-    String numberChoiceString = getParameter(request, "number-comments", "1");
-    System.out.println("Number choice: " + numberChoiceString);
-
-    // Convert the input to an int.
-    int numberChoice;
-    try {
-      numberChoice = Integer.parseInt(numberChoiceString);
-    } catch (NumberFormatException e) {
-      System.err.println("Could not convert to int: " + numberChoiceString);
-      return -1;
-    }
-
-    if (numberChoice < 0 || numberChoice > 10) {
-      System.err.println("Choice is out of range: " + numberChoiceString);
-      return -1;
-    }
-
-    return numberChoice;
   }
 
 }

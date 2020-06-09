@@ -7,7 +7,7 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
+    <div class="header">
       <header style="padding-bottom: 50px; padding-top: 50px">
         <div style="float: left">
           <a href="index.html" class="navButton">Sanna Symer</a>
@@ -17,10 +17,11 @@
           <a href="fun.html" class="navButton">Fun</a>
           <a href="projects.html" class="navButton">Projects</a>
           <a href="comments.html" class="navButton">Comments</a>
-
         </div>
       </header>
+    </div>
 
+    <div id="content">
       <div class="sectionHeader" style="padding-top:50px">
         <h1 class="modern">Fun</h1>
       </div> 
@@ -149,12 +150,19 @@
         <p>Curious to see more? Take a look at my art TikTok account.</p>
         <a href="https://vm.tiktok.com/KBwWmQ/" class="personalLink" target="_blank">TikTok</a>
       </div>
+    </div>
 
-      <h2>Favorites</h2>
-      <p>This section is pretty much me experimenting with lists in HTML.
-          So please enjoy learning about some of my random favorite things.
-          <b>Double click</b> on a section to learn more about my favorites.
-      </p>
+    <div id="content">
+      <h2 class="modern">Favorites</h2>
+    </div>
+
+    <div id="content">
+      <div style="padding-bottom:20px; height:auto; overflow:auto">
+        <p>This section is pretty much me experimenting with lists in HTML.
+            So please enjoy learning about some of my random favorite things.
+            <b>Double click</b> on a section to learn more about my favorites.
+        </p> 
+      </div>
 
       <!-- Extends and collapses on click. -->
       <button type="button" class="collapsible" onclick="extend()">Foods</button>
@@ -209,7 +217,6 @@
           <li>Ozark</li>
         </ul>
       </div> 
-
     </div>
   </body>
 </html>
