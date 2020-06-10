@@ -1,6 +1,5 @@
 function createListElement(text) {
   const liElement = document.createElement('p');
-  console.log('comment text ' + text);
   var nameCommentTime = getNameCommentTime(text);
   liElement.innerText = nameCommentTime[1];
   liElement.classList.add("commentList");
@@ -139,23 +138,36 @@ function fetchLogin() {
       document.getElementById('login-info').classList.remove("invisible");
       location.replace(status.url);
       document.getElementById('comment-form').classList.remove("invisible");
-
     }
   });
 }
 
+function loginIfLoggedIn() {
+  fetch('/login')
+  .then(response => response.json()) // Convert to json
+  .then((status) => {
+    // Logged in 
+    if (status.login === 'true' && status.email != 'test@example.com') {
+      document.getElementById('comment-form').classList.remove("invisible");
+      document.getElementById('login-info').classList.add("invisible");
+    } 
+  });
+}
+
 function onLoad() {
-  fetchLogin();
+  loginIfLoggedIn();
   limitedComments();
 }
 
 /** Called when press logout (want to logout) */
 function fetchLogout() {
+  console.log('fetch logout, pressed logout button');
   fetch('/login')
   .then(response => response.json()) // Convert to json
   .then((status) => {
     // Logged in 
     if (status.login === 'true') {
+      console.log('logged in, going to logout');
       document.getElementById('comment-form').classList.add("invisible");
       location.replace(status.url); //go to logout page
     } 
