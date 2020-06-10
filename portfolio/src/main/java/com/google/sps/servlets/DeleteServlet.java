@@ -20,16 +20,11 @@ import java.util.List;
 @WebServlet("/delete-data")
 public class DeleteServlet extends HttpServlet {
 
+  private static final String COMMENT_QUERY = "Comment";
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
-
-    for (Entity entity : results.asIterable()) {
-      Key key = entity.getKey();
-      datastore.delete(key);
-    }
+    QueryHelper queryHelper = new QueryHelper(COMMENT_QUERY);
+    queryHelper.deleteAllEntries();
   }
 }

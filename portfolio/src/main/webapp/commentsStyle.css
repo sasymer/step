@@ -59,3 +59,8 @@
 .input {
   width: 75%;
 }
+
+.paddedHeader {
+  padding-bottom: 50px; 
+  padding-top: 50px
+}
