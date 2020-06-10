@@ -47,7 +47,7 @@ public class DataServlet extends HttpServlet {
   private static final String EMAIL = "email";
   private static final String QUERY_STRING = "Comment";
   private List<String> messages = new ArrayList<>();
-  private QueryHelper queryHelper = new QueryHelper(QUERY_STRING);
+  private QueryHelper queryHelper = new QueryHelper();
 
   /** Get all comment entities in the datastore and add them to messages. */
   @Override

@@ -33,7 +33,7 @@ public class QueryHelper {
   }
 
   private void initQuery() {
-    myQuery = new Query(queryString).addSort(TIMESTAMP, SortDirection.DESCENDING);
+    myQuery = new Query(QUERY_STRING).addSort(TIMESTAMP, SortDirection.DESCENDING);
     myDatastore = DatastoreServiceFactory.getDatastoreService();
     myResults = myDatastore.prepare(myQuery);
   }
