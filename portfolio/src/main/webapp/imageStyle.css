@@ -66,3 +66,7 @@
   background-image: url("/icons/sim_hover.png") no-repeat;
 }
 
+.circle {
+  border-radius: 50%;
+}
+

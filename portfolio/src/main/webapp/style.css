@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Manrope&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 @import url('buttons.css');
 @import url('imageStyle.css');
 @import url('commentsStyle.css');
+@import url('text.css');
 
 #content {
   margin-left: auto;
@@ -45,6 +47,7 @@ h2 {
   background-color: paleturquoise;
   color: black;
   text-align: center;
+  width: 100%;
 }
 
 .center {
@@ -90,9 +93,9 @@ h2 {
 }
 
 .modern {
-    background-color: transparent;
-    color: darkturquoise;
-    float: left;
+  background-color: transparent;
+  color: darkturquoise;
+  float: left;
 }
 
 .sectionHeader {
@@ -106,8 +109,8 @@ h2 {
 }
 
 .collapsible {
-  background-color: lightgray;
-  color: black;
+  background-color: darkgray;
+  color: white;
   padding: 10px;
   width: 100%;
   text-align: left;
@@ -123,17 +126,6 @@ h2 {
 .collapsibleContent {
   display: none;
   overflow: hidden;
-}
-
-input[type=submit] {
-  background-color: darkturquoise;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
 textarea {
