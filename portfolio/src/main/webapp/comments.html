@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="comment.js"></script>
   </head>
-  <body onload="limitedComments()">
+  <body onload="onLoad()">
     <div class="header">
       <header class="paddedHeader">
         <div style="float:left">
@@ -25,8 +25,13 @@
       <div id="commentCenter">
         <h3 class="commentHeader">Comments</h3>
 
+        <div id="login-info">
+          <p>Login with your Google account to see and post comments!</p>
+        </div>
+
         <div id = "login-button" style="padding-bottom:20px;">
-          <button class="bluebutton" onclick="fetchLogin()">Login</button>
+          <button id="login" class="bluebutton" onclick="fetchLogin()">Login</button>
+          <button id="logout" class="bluebutton" onclick="fetchLogout()">Logout</button>
         </div>
 
         <div id="comment-form" class="invisible">

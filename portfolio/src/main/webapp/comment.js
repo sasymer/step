@@ -133,9 +133,31 @@ function fetchLogin() {
     // Logged in 
     if (status.login === 'true' && status.email != 'test@example.com') {
       document.getElementById('comment-form').classList.remove("invisible");
+      document.getElementById('login-info').classList.add("invisible");
     } else { // Not logged in, redirect to login page
       document.getElementById('comment-form').classList.add("invisible");
+      document.getElementById('login-info').classList.remove("invisible");
       location.replace(status.url);
+      document.getElementById('comment-form').classList.remove("invisible");
+
     }
+  });
+}
+
+function onLoad() {
+  fetchLogin();
+  limitedComments();
+}
+
+/** Called when press logout (want to logout) */
+function fetchLogout() {
+  fetch('/login')
+  .then(response => response.json()) // Convert to json
+  .then((status) => {
+    // Logged in 
+    if (status.login === 'true') {
+      document.getElementById('comment-form').classList.add("invisible");
+      location.replace(status.url); //go to logout page
+    } 
   });
 }
