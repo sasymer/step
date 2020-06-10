@@ -1,4 +1,3 @@
-/** Creates an <p> element containing text. Use this to show a list of comments for now. */
 function createListElement(text) {
   const liElement = document.createElement('p');
   console.log('comment text ' + text);
@@ -6,6 +5,16 @@ function createListElement(text) {
   liElement.innerText = nameCommentTime[1];
   liElement.classList.add("commentList");
   return liElement;
+}
+
+function createComment(text) {
+  const div = document.createElement('div');
+  div.appendChild(createNameElement(text));
+  div.appendChild(createTimeElement(text));
+  div.appendChild(createListElement(text));
+  div.appendChild(makeHrLine());
+
+  return div;
 }
 
 /** Create 3 element array of name, comment, timestamp. */
@@ -17,11 +26,36 @@ function getNameCommentTime(text) {
 function createNameElement(text) {
   var nameCommentTime = getNameCommentTime(text);
   var name = nameCommentTime[0];
-  var time = nameCommentTime[2];
   const nameElement = document.createElement('p');
-  nameElement.innerText = name + "\n " + time + " mins ago";
+  nameElement.innerText = name;
   nameElement.classList.add("commentName");
   return nameElement;
+}
+
+function createTimeElement(text) {
+  var nameCommentTime = getNameCommentTime(text);
+  var time = nameCommentTime[2];
+  var email = nameCommentTime[3];
+  const timeElement = document.createElement('p');
+  timeElement.innerText = email + " | " + makeTimeString(time);
+  timeElement.classList.add("commentTime");
+  return timeElement;
+}
+
+/** From time in minutes, formats a readable time string in either minutes,
+hours, or days. */
+function makeTimeString(time) {
+  var timeString = '';
+  if (time <= 120) {
+    timeString = time + " mins ago";
+  } else if (time > 120 && time < 2880) {
+    time = time / 60;
+    timeString = time.toFixed(0) + " hours ago";
+  } else {
+    time = time / 60 / 24;
+    timeString = time.toFixed(0) + " days ago";
+  }
+  return timeString;
 }
 
 /** Make an unordered list of all comments in the server, print list onto page. */
@@ -52,14 +86,19 @@ function limitedComments() {
   .then((comments) => {
     const commentSpace = document.getElementById('comment-space');
     let numberComments = document.getElementById('choose-num').value; 
+    let order = document.getElementById('choose-order').value;
 
     let numberToList = getNumberToList(numberComments, comments);
     clearComments(commentSpace);
 
-    for (let index = 0; index < numberToList; index++) {
-      commentSpace.appendChild(createNameElement(comments[index]));
-      commentSpace.appendChild(createListElement(comments[index]));
-      commentSpace.appendChild(makeHrLine());
+    if (order === 'newest') {
+      for (let index = 0; index < numberToList; index++) {
+        commentSpace.appendChild(createComment(comments[index]));
+      }
+    } else {
+      for (let index = comments.length - 1; index >= comments.length - numberToList; index--) {
+        commentSpace.appendChild(createComment(comments[index]));
+      }
     }
   });
 }
@@ -85,4 +124,18 @@ function clearComments(space) {
   while (space.firstChild) {
     space.removeChild(space.firstChild);
   }
+}
+
+function fetchLogin() {
+  fetch('/login')
+  .then(response => response.json()) // Convert to json
+  .then((status) => {
+    // Logged in 
+    if (status.login === 'true' && status.email != 'test@example.com') {
+      document.getElementById('comment-form').classList.remove("invisible");
+    } else { // Not logged in, redirect to login page
+      document.getElementById('comment-form').classList.add("invisible");
+      location.replace(status.url);
+    }
+  });
 }

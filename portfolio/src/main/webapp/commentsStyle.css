@@ -2,9 +2,8 @@
 #commentCenter {
   text-align: center;
   position: absolute;
-  left: 10%;
-  right: 10%;
-  /*transform: translateX(20%);*/
+  left: 15%;
+  right: 15%;
   padding-bottom: 40px;
 }
 
@@ -14,23 +13,33 @@
 }
 
 .commentList {
-  padding-left: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
   font-size: 15px;
+  line-height: 15px;
 }
 
 .commentName {
-  padding-left: 15px;
+  padding-left: 30px;
   font-size: 18px;
+  line-height: 8px;
+  font-weight: bold; 
+}
+
+.commentTime {
+  padding-left: 30px;
+  font-size: 12px;
+  line-height: 15px;
 }
 
 .hrLine {
-  border-top: 1px solid paleturquoise;
+  border-top: 1px solid rgb(200, 200, 200);
 }
 
 .commentBox {
   padding-top: 20px; 
   padding-bottom: 20px; 
-  background-color: rgb(226, 255, 255);
+  background-color: rgb(240, 240, 240);
   border-radius: 8px;
   overflow: auto;
 }
@@ -44,7 +53,7 @@
 .commentInputBox {
   padding-top: 20px; 
   padding-bottom: 20px; 
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(226, 255, 255);
   border-radius: 8px;
 }
 
@@ -64,3 +73,8 @@
   padding-bottom: 50px; 
   padding-top: 50px
 }
+
+.invisible {
+  display: none;
+}
+
