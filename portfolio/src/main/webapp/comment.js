@@ -161,13 +161,11 @@ function onLoad() {
 
 /** Called when press logout (want to logout) */
 function fetchLogout() {
-  console.log('fetch logout, pressed logout button');
   fetch('/login')
   .then(response => response.json()) // Convert to json
   .then((status) => {
     // Logged in 
     if (status.login === 'true') {
-      console.log('logged in, going to logout');
       document.getElementById('comment-form').classList.add("invisible");
       location.replace(status.url); //go to logout page
     } 
