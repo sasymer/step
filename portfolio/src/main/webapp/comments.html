@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="comment.js"></script>
   </head>
-  <body onload="limitedComments()">
+  <body onload="onLoad()">
     <div class="header">
       <header class="paddedHeader">
         <div style="float:left">
@@ -25,42 +25,60 @@
       <div id="commentCenter">
         <h3 class="commentHeader">Comments</h3>
 
-        <div class="commentInputBox">
-          <form action="/data" method="POST">
-            <textarea required name="comment-input" placeholder="Enter a comment here..." class="input"></textarea>
-            <br>
-            <input type="text" required name="name-input"  placeholder="Name..." class="input"></textarea>
-            <br>
-            <input type="submit"/>
-          </form>
+        <div id="login-info">
+          <p>Login with your Google account to see and post comments!</p>
         </div>
-        
-        <!-- Extra spacing -->
-        <div class="space"></div>
 
-        <div class="commentBox">
-          <p class="commentBoxLabel">
-            <label for="choose-num">Select an option to limit the number of comments shown. <br>By default, you'll see 5 comments. </label>
-          </p>
-          <select onchange= "limitedComments()" name="choose-num" id="choose-num" class="numberSelection">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="40">40</option>
-            <option value="all">See All</option>
-          </select>
-          <!-- Comment space --> 
-          <div id="comment-space" style="font-size:16px; text-align:justify;">
+        <div id = "login-button" style="padding-bottom:20px;">
+          <button id="login" class="bluebutton" onclick="fetchLogin()">Login</button>
+          <button id="logout" class="bluebutton" onclick="fetchLogout()">Logout</button>
+        </div>
+
+        <div id="comment-form" class="invisible">
+          <div class="commentInputBox">
+            <form action="/data" method="POST">
+              <textarea required name="comment-input" placeholder="Enter a comment here..." class="input"></textarea>
+              <br>
+              <input type="text" required name="name-input"  placeholder="Name..." class="input"></textarea>
+              <br>
+              <div class="space"></div>
+              <input type="submit"/>
+            </form>
           </div>
-        </div>
+          
+          <!-- Extra spacing -->
+          <div class="space"></div>
 
-        <div> 
-          <p style="text-align:justify; font-color:lightgray">
-            Click the button below and refresh this page
-            to delete all comments from the server. 
-            I'm giving you a lot of power, to be honest.
-          </p>
-          <button class="bluebutton" onclick="deleteComments()">Delete Comments</button> 
+          <div class="commentBox">
+            <p class="commentBoxLabel">
+              <label for="choose-num">Select an option to limit the number of comments shown. <br>By default, you'll see 5 comments. </label>
+            </p>
+            <select onchange= "limitedComments()" name="choose-num" id="choose-num" class="numberSelection">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="40">40</option>
+              <option value="all">See All</option>
+            </select>
+
+            <select onchange="limitedComments()" name="choose-order" id="choose-order" class="numberSelection">
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+
+            <!-- Comment space --> 
+            <div id="comment-space" style="text-align:justify;">
+            </div>
+          </div>
+
+          <div> 
+            <p style="text-align:justify; font-color:lightgray">
+              Click the button below and refresh this page
+              to delete all comments from the server. 
+              I'm giving you a lot of power, to be honest.
+            </p>
+            <button class="bluebutton" onclick="deleteComments()">Delete Comments</button> 
+          </div>
         </div>
       </div>
     </div>

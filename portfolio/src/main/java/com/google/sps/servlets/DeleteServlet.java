@@ -20,11 +20,9 @@ import java.util.List;
 @WebServlet("/delete-data")
 public class DeleteServlet extends HttpServlet {
 
-  private static final String COMMENT_QUERY = "Comment";
-
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    QueryHelper queryHelper = new QueryHelper(COMMENT_QUERY);
+    QueryHelper queryHelper = new QueryHelper();
     queryHelper.deleteAllEntries();
   }
 }

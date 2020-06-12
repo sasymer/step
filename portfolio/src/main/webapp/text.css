@@ -1,0 +1,22 @@
+.frontpage-name {
+  color: darkturquoise; 
+  font-weight: bold;
+}
+
+.frontpage-paragraph {
+  font-size: 30px; 
+  line-height: 40px;
+}
+
+.page-header {
+  text-align: center; 
+  height: auto; 
+  overflow: auto;
+}
+
+.aboutme-paragraph {
+  font-size: 20px; 
+  line-height: 30px; 
+  text-align: justify; 
+  padding-right: 10%;
+}

@@ -28,7 +28,6 @@
 
 .personalLink:hover {
   background-color: paleturquoise;
-  color: black;
 }
 
 .bluebutton {
@@ -40,4 +39,15 @@
   cursor: pointer;
   border-radius: 4px;
   border: none;
+}
+
+input[type=submit] {
+  background-color: darkturquoise;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
 }
