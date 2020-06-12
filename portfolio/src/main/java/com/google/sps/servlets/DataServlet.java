@@ -55,6 +55,9 @@ public class DataServlet extends HttpServlet {
     PreparedQuery results = queryHelper.getResults();
     messages.clear();
 
+    String languageCode = request.getParameter("language");
+    System.out.println("Lang code = " + languageCode);
+
     for (Entity entity : results.asIterable()) {
       messages.add(formatEntityString(entity));
     }
@@ -69,6 +72,7 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String text = getParameter(request, "comment-input", "");
     String name = getParameter(request, "name-input", "");
+    System.out.println("LANGGGG = " + getParameter(request, "language", ""));
 
     messages.add(text);
     
