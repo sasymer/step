@@ -4,37 +4,32 @@
     <meta charset="UTF-8">
     <title>Chinese Essay</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="/translateStyle.css">
+    <link rel="stylesheet" href="translateStyle.css">
     <script src="translateEssay.js"></script>
-
   </head>
   <body>
     <div class="header">
       <header style="padding-bottom: 50px; padding-top: 50px">
         <div style="float: left">
-          <a href="index.html" class="navButton">Sanna Symer</a>
+          <a href="../index.html" class="navButton">Sanna Symer</a>
         </div>
         <div style="float: right">
-          <a href="aboutme.html" class="navButton">Me</a>
-          <a href="fun.html" class="navButton">Fun</a>
-          <a href="projects.html" class="navButton">Projects</a>
-          <a href="comments.html" class="navButton">Comments</a>
+          <a href="../aboutme.html" class="navButton">Me</a>
+          <a href="../fun.html" class="navButton">Fun</a>
+          <a href="../projects.html" class="navButton">Projects</a>
+          <a href="../comments.html" class="navButton">Comments</a>
         </div>
       </header>
     </div>
 
     <div id="content">
-      <p style="padding-left:10%; padding-right:10%">
+      <p class="paragraph-box">
         Below is the abstract from my final paper in Chinese last semester.
         Click the button below to translate it into English (might
-        not be a great translation).
+        not be a great translation). 
       </p>
 
-      <div class="button-holder">
-        <button onclick="doTranslate()" class="bluebutton">Translate to English</button>
-      </div>
-
-      <div id="chinese-paragraph" style="text-align:justify; padding-left: 10%; padding-right: 10%;">
+      <div id="chinese-paragraph" class="paragraph-box">
         首先，本文描述美国电影中亚洲人的写照，特别是电影业从20世纪到21世纪的变化。
         20世纪上映的美国电影一般没有亚裔演员。如果有亚裔演员的话，
         他们常常扮演很种族主义的角色，反映出美国制片人对亚洲人的刻板印象。
@@ -44,7 +39,13 @@
         我认为美国电影应该表现美国文化的多样性。
       </div>
 
-      <div id="english-paragraph" style="text-align:justify; padding-left:10%; padding-right:10%;"></div>
+      <div class="button-holder">
+        <button onclick="doTranslate()" class="bluebutton">Translate to English</button>
+      </div>
+
+      <div style="padding-bottom:20px"></div>
+
+      <div id="english-paragraph" class="paragraph-box"></div>
 
     </div>
   </body>
