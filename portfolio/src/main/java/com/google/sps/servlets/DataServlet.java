@@ -59,7 +59,6 @@ public class DataServlet extends HttpServlet {
     messages.clear();
 
     String languageCode = request.getParameter("language");
-    System.out.println("Lang code = " + languageCode);
 
     for (Entity entity : results.asIterable()) {
       messages.add(formatEntityString(entity, languageCode));
