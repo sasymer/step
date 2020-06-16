@@ -22,6 +22,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.time.Duration;
@@ -55,11 +58,15 @@ public class DataServlet extends HttpServlet {
     PreparedQuery results = queryHelper.getResults();
     messages.clear();
 
+    String languageCode = request.getParameter("language");
+
     for (Entity entity : results.asIterable()) {
-      messages.add(formatEntityString(entity));
+      messages.add(formatEntityString(entity, languageCode));
     }
 
-    response.setContentType(TEXT_TYPE);
+    response.setContentType("text/html; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
+   
     String json = new Gson().toJson(messages);
     response.getWriter().println(json);
   }
@@ -88,8 +95,13 @@ public class DataServlet extends HttpServlet {
     return timeSinceCommentPost.toMinutes();
   }
 
-  private String formatEntityString(Entity entity) {
+  private String formatEntityString(Entity entity, String languageCode) {
     String comment = (String) entity.getProperty(CONTENT);
+
+    Translate translate = TranslateOptions.getDefaultInstance().getService();
+    Translation translation = translate.translate(comment, Translate.TranslateOption.targetLanguage(languageCode));
+    comment = translation.getTranslatedText();
+
     String name = (String) entity.getProperty(NAME);
 
     Instant commentTime = Instant.ofEpochMilli((Long) entity.getProperty(TIMESTAMP));

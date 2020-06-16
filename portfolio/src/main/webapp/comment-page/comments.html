@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Comments</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <script src="comment.js"></script>
   </head>
   <body onload="onLoad()">
@@ -13,10 +13,10 @@
           <a href="index.html" class="navButton">Sanna Symer</a>
         </div>
         <div style="float:right">
-          <a href="aboutme.html" class="navButton">Me</a>
-          <a href="fun.html" class="navButton">Fun</a>
-          <a href="projects.html" class="navButton">Projects</a>
-          <a href="comments.html" class="navButton">Comments</a>
+          <a href="../aboutme.html" class="navButton">Me</a>
+          <a href="../fun.html" class="navButton">Fun</a>
+          <a href="../projects.html" class="navButton">Projects</a>
+          <a href="/comment-page/comments.html" class="navButton">Comments</a>
         </div>
       </header>
     </div>
@@ -64,6 +64,14 @@
             <select onchange="limitedComments()" name="choose-order" id="choose-order" class="numberSelection">
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
+            </select>
+
+            <select onchange="limitedComments()" id="language" class="numberSelection">
+              <option value="en">English</option>
+              <option value="zh">Chinese</option>
+              <option value="es">Spanish</option>
+              <option value="ar">Arabic</option>
+              <option value="hi">Hindi</option>
             </select>
 
             <!-- Comment space --> 
