@@ -22,76 +22,77 @@ import java.util.Set;
 
 public final class FindMeetingQuery {
 
+  private static final int UPPER_BOUND = 1440;
+  private static final int LOWER_BOUND = 0;
+
   private List<TimeRange> getTimesThatDontWork(Collection<Event> events, Collection<String> attendees) {
-    List<TimeRange> timesThatDoNotWork = new ArrayList<>();
+    List<TimeRange> blockedTimes = new ArrayList<>();
 
     for (Event event : events) {
       TimeRange eventTime = event.getWhen();
       Set<String> peopleAtEvent = event.getAttendees();
       for (String attendee : attendees) {
         if (peopleAtEvent.contains(attendee)) {
-          timesThatDoNotWork.add(eventTime);
+          blockedTimes.add(eventTime);
         }
       }
     }
 
-    return timesThatDoNotWork;
+    return blockedTimes;
   } 
 
-  private List<TimeRange> condenseTimeRanges(List<TimeRange> timesThatDoNotWork) {
-    ArrayList<TimeRange> condensedDontWork = new ArrayList<>();
-    for (int i = 0; i < timesThatDoNotWork.size(); i++) {
-      TimeRange first = timesThatDoNotWork.get(i);
+  private List<TimeRange> condenseTimeRanges(List<TimeRange> blockedTimes) {
+    ArrayList<TimeRange> condensedBlockedTimes = new ArrayList<>();
+    for (int i = 0; i < blockedTimes.size(); i++) {
+      TimeRange first = blockedTimes.get(i);
 
-      if (i == timesThatDoNotWork.size() - 1) {
-        condensedDontWork.add(first);
+      if (i == blockedTimes.size() - 1) {
+        condensedBlockedTimes.add(first);
         break;
       }
-      TimeRange second = timesThatDoNotWork.get(i + 1);
+      TimeRange second = blockedTimes.get(i + 1);
 
       if (first.overlaps(second)) { //can condense
         int firstEnd = first.end();
         int secondEnd = second.end();
         int newStart = first.start();
-        int newEnd = 0;
-
+        
+        int newEnd = secondEnd;
         if (firstEnd > secondEnd) {
           newEnd = firstEnd;
-        } else {
-          newEnd = secondEnd;
-        }
+        } 
 
         i++;
-        condensedDontWork.add(TimeRange.fromStartDuration(newStart, newEnd - newStart));
+        condensedBlockedTimes.add(TimeRange.fromStartDuration(newStart, newEnd - newStart));
       } else {
-        condensedDontWork.add(first);
+        condensedBlockedTimes.add(first);
       }
     }
-    return condensedDontWork;
+    return condensedBlockedTimes;
   }
 
-  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+  public Collection<TimeRange> otherway(Collection<Event> events, MeetingRequest request) {
     Collection<String> attendees = request.getAttendees();
     long duration = request.getDuration();
-    if (duration > 1440) {
+    if (duration > UPPER_BOUND) {
       return new ArrayList<TimeRange>();
     }
 
-    List<TimeRange> timesThatDoNotWork = getTimesThatDontWork(events, attendees);
-    Collections.sort(timesThatDoNotWork, TimeRange.ORDER_BY_START);
+    List<TimeRange> blockedTimes = getTimesThatDontWork(events, attendees);
+    Collections.sort(blockedTimes, TimeRange.ORDER_BY_START);
 
     //Condense times that are not available
-    List<TimeRange> condensedDontWork = condenseTimeRanges(timesThatDoNotWork);
+    List<TimeRange> condensedBlockedTimes = condenseTimeRanges(blockedTimes);
 
-    int lowerBound = 0;
+    int lowerBound = LOWER_BOUND;
     Collection<TimeRange> timesThatWork = new ArrayList<>();
-    if (condensedDontWork.size() == 0) {
-      timesThatWork.add(TimeRange.fromStartDuration(0, 1440));
+    if (condensedBlockedTimes.size() == 0) {
+      timesThatWork.add(TimeRange.fromStartDuration(LOWER_BOUND, UPPER_BOUND));
     }
 
-    for (int i = 0; i < condensedDontWork.size(); i++) {
-      int first = condensedDontWork.get(i).start();
-      int second = condensedDontWork.get(i).end();
+    for (int i = 0; i < condensedBlockedTimes.size(); i++) {
+      int first = condensedBlockedTimes.get(i).start();
+      int second = condensedBlockedTimes.get(i).end();
 
       if (first == 0) {
         lowerBound = second;
@@ -105,51 +106,82 @@ public final class FindMeetingQuery {
         timesThatWork.add(newRange);
       }
 
-      if (i == condensedDontWork.size() - 1 && second != 1440) {
-        TimeRange range = TimeRange.fromStartDuration(second, 1440 - second);
+      if (i == condensedBlockedTimes.size() - 1 && second != UPPER_BOUND) {
+        TimeRange range = TimeRange.fromStartDuration(second, UPPER_BOUND - second);
         if (range.duration() >= duration) {
           timesThatWork.add(range);
         }
       }
     }
-
     return timesThatWork;
+  } 
+
+  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+    Collection<String> attendees = request.getAttendees();
+    long duration = request.getDuration();
+    if (duration > UPPER_BOUND) {
+      return new ArrayList<TimeRange>();
+    }
+
+    Collection<TimeRange> returnTimes = new ArrayList<>();
+
+    List<Event> eventsList = new ArrayList<>(events);
+    int eventIndex = 0;
+    int lowerBound = 0;
+    int upperBound = 0;
+    while (lowerBound < 1440 && eventIndex <= eventsList.size()) {
+      if (eventIndex == eventsList.size()) {
+        returnTimes.add(TimeRange.fromStartDuration(lowerBound, 1440 - lowerBound));
+        break;
+      }
+
+      Event event = eventsList.get(eventIndex);
+      Set<String> eventAttendees = event.getAttendees();
+      boolean noAttendeesAtEvent = true;
+      for (String attendee : attendees) {
+        if (eventAttendees.contains(attendee)) {
+          noAttendeesAtEvent = false;
+        }
+      }
+
+      TimeRange eventTimeRange = event.getWhen();
+      int start = eventTimeRange.start();
+      int end = eventTimeRange.end();
+
+      while (eventIndex < eventsList.size() - 1) {
+        Event nextEvent = eventsList.get(eventIndex + 1);
+        TimeRange range = nextEvent.getWhen();
+        if (range.start() < end) {
+          if (range.end() > end) { //nested
+            end = range.end();
+          } 
+          eventIndex++;
+        } else {
+          break;
+        }
+      }
+
+      // Ignore this event -- no people of interest
+      if (noAttendeesAtEvent) { 
+        eventIndex++;
+        continue;
+      }
+
+      // If we start at 0, want to jump ahead
+      if (lowerBound == start) {
+        lowerBound = end;
+        continue;
+      }
+
+      upperBound = start;
+      TimeRange goodTime = TimeRange.fromStartDuration(lowerBound, upperBound - lowerBound);
+      lowerBound = end;
+
+      if (goodTime.duration() >= duration) {
+        returnTimes.add(goodTime);
+      }
+      eventIndex++;
+    }
+    return returnTimes;
   }
-
-  //public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    // //want to find time ranges that the meeting could happen
-
-    // Collection<String> attendees = request.getAttendees();
-    // long duration = request.getDuration();
-
-    // System.out.println("duration = " + duration);
-
-    // if (duration > 1440) {
-    //   return new ArrayList<TimeRange>();
-    // }
-
-    // Collection<TimeRange> timesThatWork = new ArrayList<>();
-
-    // List<TimeRange> timesThatDoNotWork = new ArrayList<>();
-
-    // for (Event event : events) {
-    //   TimeRange eventTime = event.getWhen();
-    //   Set<String> peopleAtEvent = event.getAttendees();
-    //   for (String attendee : attendees) {
-    //     if (peopleAtEvent.contains(attendee)) {
-    //       timesThatDoNotWork.add(eventTime);
-    //     }
-    //   }
-    // }
-
-    // Collections.sort(timesThatDoNotWork, TimeRange.ORDER_BY_START);
-    // int lowerBound = 0;
-    // int index = 0;
-    // while (lowerBound < 1440 && index < timesThatDoNotWork.size()) {
-
-    // }
-
-  //}
-
-
 }
