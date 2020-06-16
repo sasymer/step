@@ -48,6 +48,8 @@ public class HomeServlet extends HttpServlet {
     // This is not how you'd do this in a real codebase!
     // See the hello-world-jsp or hello-world-fetch examples for more info.
     PrintWriter out = response.getWriter();
+    out.println("<p>" + uploadUrl + "</p>");
+
     out.println(
         "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"" + uploadUrl + "\">");
 
