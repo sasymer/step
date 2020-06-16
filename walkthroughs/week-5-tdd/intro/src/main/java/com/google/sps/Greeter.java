@@ -22,18 +22,6 @@ public class Greeter {
    * Returns a greeting for the given name.
    */
   public String greet(String name) {
-    //brute force
-    String returnName = "";
-    for (char c : name.toCharArray()) {
-      if (Character.isLetter(c)) {
-        returnName += c;
-      }
-    }
-
-    //using method in String
-    //returnName = name.replaceAll("\\s", "");
-    // \\s is a single space in unicode
-
-    return "Hello " + returnName;
+    return "Hello " + name;
   }
 }

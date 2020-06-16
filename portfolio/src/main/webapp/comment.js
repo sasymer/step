@@ -80,12 +80,7 @@ function deleteComments() {
 
 /** Print number of comments chosen by user, or 5 by default. */
 function limitedComments() {
-  let langCode = document.getElementById('language').value;
-  console.log(langCode);
-
-  const url = '/data?language=' + langCode;
-
-  fetch(url)
+  fetch('/data')
   .then(response => response.json()) // Convert to json
   .then((comments) => {
     const commentSpace = document.getElementById('comment-space');

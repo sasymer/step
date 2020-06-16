@@ -3,23 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <title>Map</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="map.css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCImVHTwoNt0c7rw3DtNhyxLtKmo91ZiEw"></script>
     <script src="map.js"></script>
-    <script src="../script.js"></script>
+    <script src="script.js"></script>
   </head>
   <body onload="createMap();">
     <div class="header">
-      <header class="paddedHeader">
-        <div style="float:left">
+      <header style="padding-bottom: 50px; padding-top: 50px">
+        <div style="float: left">
           <a href="index.html" class="navButton">Sanna Symer</a>
         </div>
-        <div style="float:right">
-          <a href="../aboutme.html" class="navButton">Me</a>
-          <a href="../fun.html" class="navButton">Fun</a>
-          <a href="../projects.html" class="navButton">Projects</a>
-          <a href="../comment-page/comments.html" class="navButton">Comments</a>
+        <div style="float: right">
+          <a href="aboutme.html" class="navButton">Me</a>
+          <a href="fun.html" class="navButton">Fun</a>
+          <a href="projects.html" class="navButton">Projects</a>
+          <a href="comments.html" class="navButton">Comments</a>
         </div>
       </header>
     </div>
@@ -31,23 +31,15 @@
     </div>
 
     <div id="content">
-      <div id="map" style="margin:auto; width:60%"></div>
+      <div id="map"></div>
 
       <div style="padding: 20px"></div>
     </div>
 
     <div id="content">
-      <div name="buttons" style="margin:auto;">
+      <div name="buttons">
         <button class="bluebutton" onclick="showHome()">
-          Home
-        </button>
-
-        <button class="bluebutton" onclick="showDuke()">
-          School
-        </button>
-
-        <button class="bluebutton" onclick="showFavorite()">
-          A Favorite Place
+          Where I live
         </button>
        </div>
     </div>

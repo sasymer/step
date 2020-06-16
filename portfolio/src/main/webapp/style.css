@@ -3,7 +3,7 @@
 
 @import url('buttons.css');
 @import url('imageStyle.css');
-@import url('/comment-page/commentsStyle.css');
+@import url('commentsStyle.css');
 @import url('text.css');
 
 #content {
