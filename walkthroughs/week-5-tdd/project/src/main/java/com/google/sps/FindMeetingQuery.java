@@ -21,21 +21,8 @@ import java.util.List;
 import java.util.Set;
 
 public final class FindMeetingQuery {
-  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    //want to find time ranges that the meeting could happen
 
-    Collection<String> attendees = request.getAttendees();
-    long duration = request.getDuration();
-
-    System.out.println("duration = " + duration);
-
-    if (duration > 1440) {
-      return new ArrayList<TimeRange>();
-    }
-
-    //once you get times that work, go through each attendee to see
-    // if they have an event at that time
-
+  private List<TimeRange> getTimesThatDontWork(Collection<Event> events, Collection<String> attendees) {
     List<TimeRange> timesThatDoNotWork = new ArrayList<>();
 
     for (Event event : events) {
@@ -48,14 +35,11 @@ public final class FindMeetingQuery {
       }
     }
 
-    Collections.sort(timesThatDoNotWork, TimeRange.ORDER_BY_START);
-    for (TimeRange time : timesThatDoNotWork) {
-      System.out.println(time.start() + " " + time.end());
-    }
+    return timesThatDoNotWork;
+  } 
 
-    //try to condense into largest slots that don't work
+  private List<TimeRange> condenseTimeRanges(List<TimeRange> timesThatDoNotWork) {
     ArrayList<TimeRange> condensedDontWork = new ArrayList<>();
-
     for (int i = 0; i < timesThatDoNotWork.size(); i++) {
       TimeRange first = timesThatDoNotWork.get(i);
 
@@ -83,11 +67,24 @@ public final class FindMeetingQuery {
         condensedDontWork.add(first);
       }
     }
+    return condensedDontWork;
+  }
+
+  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+    Collection<String> attendees = request.getAttendees();
+    long duration = request.getDuration();
+    if (duration > 1440) {
+      return new ArrayList<TimeRange>();
+    }
+
+    List<TimeRange> timesThatDoNotWork = getTimesThatDontWork(events, attendees);
+    Collections.sort(timesThatDoNotWork, TimeRange.ORDER_BY_START);
+
+    //Condense times that are not available
+    List<TimeRange> condensedDontWork = condenseTimeRanges(timesThatDoNotWork);
 
     int lowerBound = 0;
-
     Collection<TimeRange> timesThatWork = new ArrayList<>();
-
     if (condensedDontWork.size() == 0) {
       timesThatWork.add(TimeRange.fromStartDuration(0, 1440));
     }
@@ -115,8 +112,6 @@ public final class FindMeetingQuery {
         }
       }
     }
-    System.out.println("\n");
-
 
     return timesThatWork;
   }
