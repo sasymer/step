@@ -176,7 +176,3 @@ function fetchLogout() {
     } 
   });
 }
-
-function translate() {
-
-}
