@@ -15,6 +15,5 @@ function doTranslate() {
   }).then(response => response.text())
   .then((translatedMessage) => {
     resultContainer.innerText = translatedMessage;
-    console.log(translatedMessage);
   });
 }
