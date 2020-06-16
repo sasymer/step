@@ -27,6 +27,12 @@ public final class FindMeetingQuery {
     Collection<String> attendees = request.getAttendees();
     long duration = request.getDuration();
 
+    System.out.println("duration = " + duration);
+
+    if (duration > 1440) {
+      return new ArrayList<TimeRange>();
+    }
+
     //once you get times that work, go through each attendee to see
     // if they have an event at that time
 
@@ -46,88 +52,109 @@ public final class FindMeetingQuery {
     for (TimeRange time : timesThatDoNotWork) {
       System.out.println(time.start() + " " + time.end());
     }
-    System.out.println("\n");
 
     //try to condense into largest slots that don't work
     ArrayList<TimeRange> condensedDontWork = new ArrayList<>();
-    ArrayList<Integer> timesList = new ArrayList<>();
 
-    for (int i = 0; i < timesThatDoNotWork.size() - 1; i++) {
+    for (int i = 0; i < timesThatDoNotWork.size(); i++) {
       TimeRange first = timesThatDoNotWork.get(i);
+
+      if (i == timesThatDoNotWork.size() - 1) {
+        condensedDontWork.add(first);
+        break;
+      }
       TimeRange second = timesThatDoNotWork.get(i + 1);
 
       if (first.overlaps(second)) { //can condense
         int firstEnd = first.end();
         int secondEnd = second.end();
         int newStart = first.start();
+        int newEnd = 0;
 
         if (firstEnd > secondEnd) {
           newEnd = firstEnd;
         } else {
           newEnd = secondEnd;
         }
-        timesList.add(newStart);
-        timesList.add(newEnd);
-        condensedDontWork.add(new TimeRange(newStart, newEnd - newStart));
+
+        i++;
+        condensedDontWork.add(TimeRange.fromStartDuration(newStart, newEnd - newStart));
       } else {
         condensedDontWork.add(first);
-        timesList.add(first.start());
-        timesList.add(first.end());
       }
     }
 
     int lowerBound = 0;
-    int upperBound = 1440;
 
     Collection<TimeRange> timesThatWork = new ArrayList<>();
 
-    for (int i = 0; i < condensedDontWork; i++) {
-      int first = condensedDontWork.get(i).start();
-      int second = condensedDontWork.get(i).end();
+    if (condensedDontWork.size() == 0) {
+      timesThatWork.add(TimeRange.fromStartDuration(0, 1440));
     }
-
-
-
-
-
-
-
-
-
-
-    for (int i = 0; i < timesList.size(); i++) {
-      int start = 0;
-      if (timesList.get(i) == 0)
-        start = timesList.get(i + 1);
-
-      int end = 1440;
-      if (i < timesList.size() - 1) {
-        end = timesList.get(i + 1).start();
-      }
-
-      if (start == 0) {
-        lowerBound = timesList.get(i).end();
-      } else {
-        TimeRange timeRange = new TimeRange(lowerBound, start - lowerBound);
-      }
-
-    }
-
 
     for (int i = 0; i < condensedDontWork.size(); i++) {
-      TimeRange notWork = condensedDontWork.get(i);
-      int upper = notWork.start();
-      if (upper != lowerBound) {
-        TimeRange work = new TimeRange(lowerBound, upper - lowerBound);
-        timesThatWork.add(work);
-        lowerBound = notWork.end();
+      int first = condensedDontWork.get(i).start();
+      int second = condensedDontWork.get(i).end();
+
+      if (first == 0) {
+        lowerBound = second;
+        continue;
       }
 
+      TimeRange newRange = TimeRange.fromStartDuration(lowerBound, first - lowerBound);
+      lowerBound = second;
+
+      if (newRange.duration() >= duration) {
+        timesThatWork.add(newRange);
+      }
+
+      if (i == condensedDontWork.size() - 1 && second != 1440) {
+        TimeRange range = TimeRange.fromStartDuration(second, 1440 - second);
+        if (range.duration() >= duration) {
+          timesThatWork.add(range);
+        }
+      }
     }
+    System.out.println("\n");
 
 
-    
     return timesThatWork;
-   //throw new UnsupportedOperationException("TODO: Implement this method.");
   }
+
+  //public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+    // //want to find time ranges that the meeting could happen
+
+    // Collection<String> attendees = request.getAttendees();
+    // long duration = request.getDuration();
+
+    // System.out.println("duration = " + duration);
+
+    // if (duration > 1440) {
+    //   return new ArrayList<TimeRange>();
+    // }
+
+    // Collection<TimeRange> timesThatWork = new ArrayList<>();
+
+    // List<TimeRange> timesThatDoNotWork = new ArrayList<>();
+
+    // for (Event event : events) {
+    //   TimeRange eventTime = event.getWhen();
+    //   Set<String> peopleAtEvent = event.getAttendees();
+    //   for (String attendee : attendees) {
+    //     if (peopleAtEvent.contains(attendee)) {
+    //       timesThatDoNotWork.add(eventTime);
+    //     }
+    //   }
+    // }
+
+    // Collections.sort(timesThatDoNotWork, TimeRange.ORDER_BY_START);
+    // int lowerBound = 0;
+    // int index = 0;
+    // while (lowerBound < 1440 && index < timesThatDoNotWork.size()) {
+
+    // }
+
+  //}
+
+
 }

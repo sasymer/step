@@ -157,6 +157,7 @@ public final class FindMeetingQueryTest {
     // Day     : |---------------------|
     // Options : |--1--|         |--2--|
 
+    System.out.println("nested");
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartDuration(TIME_0830AM, DURATION_90_MINUTES),
             Arrays.asList(PERSON_A)),
@@ -207,7 +208,7 @@ public final class FindMeetingQueryTest {
     // Events  : |--A--|     |----A----|
     // Day     : |---------------------|
     // Options :       |-----|
-
+    System.out.println("just enough room");
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
             Arrays.asList(PERSON_A)),
