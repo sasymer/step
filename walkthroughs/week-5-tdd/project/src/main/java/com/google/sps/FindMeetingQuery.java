@@ -51,9 +51,9 @@ public final class FindMeetingQuery {
     int eventIndex = 0;
     int lowerBound = 0;
     int upperBound = 0;
-    while (lowerBound < 1440 && eventIndex <= eventsList.size()) {
+    while (lowerBound < UPPER_BOUND && eventIndex <= eventsList.size()) {
       if (eventIndex == eventsList.size()) {
-        returnTimes.add(TimeRange.fromStartDuration(lowerBound, 1440 - lowerBound));
+        returnTimes.add(TimeRange.fromStartDuration(lowerBound, UPPER_BOUND - lowerBound));
         break;
       }
 
@@ -70,8 +70,7 @@ public final class FindMeetingQuery {
       int start = eventTimeRange.start();
       int end = eventTimeRange.end();
 
-      // Ignore this event -- no people of interest
-      // Could be optional attendees here only
+      // Ignore this event -- no people of interest - could be optional attendees here only
       if (noAttendeesAtEvent) { 
         eventIndex++;
         continue;
