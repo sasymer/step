@@ -327,7 +327,7 @@ public final class FindMeetingQueryTest {
   }
 
   @Test
-  public void justEnoughRoom2() {
+  public void justEnoughRoomWithOptional() {
     Collection<Event> events = Arrays.asList(
         new Event("Event 1", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0830AM, false),
             Arrays.asList(PERSON_A)),
